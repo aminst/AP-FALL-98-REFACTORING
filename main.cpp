@@ -3,26 +3,40 @@
 #include <vector>
 
 using namespace std;
-void find_max_crops(vector<vector<int>> map, int &t);
+
+vector<vector<int>> read_map();
+vector<vector<int>> read_sized_map(int rows_size, int columns_size);
+void find_max_crops(vector<vector<int>> map, int &max_crop);
 int sum(vector<int> v);
+
 int main() {
+  vector<vector<int>> map = read_map();
+  int max_crop;
+  find_max_crops(map, max_crop);
+  cout << max_crop;
+  return 0;
+}
+
+vector<vector<int>> read_map() {
   int row, column;
   cin >> row >> column;
+  return read_sized_map(row, column);
+}
+
+vector<vector<int>> read_sized_map(int rows_size, int columns_size) {
   vector<vector<int>> map;
-  for (int i = 0; i < row; i++) {
+  for (int i = 0; i < rows_size; i++) {
     vector<int> new_row;
-    for (int j = 0; j < column; j++) {
+    for (int j = 0; j < columns_size; j++) {
       int new_value;
       cin >> new_value;
       new_row.push_back(new_value);
     }
     map.push_back(new_row);
   }
-  int max_crop;
-  find_max_crops(map, max_crop);
-  cout << max_crop;
-  return 0;
+  return map;
 }
+
 void find_max_crops(vector<vector<int>> map, int &max_crop) {
   vector<int> rows_crops;
   for (int i = 0; i < map.size(); i++) {
