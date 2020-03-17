@@ -3,31 +3,31 @@
 #include <vector>
 
 using namespace std;
-void Max_crops(vector<vector<int>> map, int &t);
-int Sum(vector<int> v);
+void find_max_crops(vector<vector<int>> map, int &t);
+int sum(vector<int> v);
 int main() {
-  int a, b;
-  cin >> a >> b;
+  int row, column;
+  cin >> row >> column;
   vector<vector<int>> map;
-  for (int i = 0; i < a; i++) {
+  for (int i = 0; i < row; i++) {
     vector<int> new_row;
-    for (int j = 0; j < b; j++) {
-      int meghdare_jadid;
-      cin >> meghdare_jadid;
-      new_row.push_back(meghdare_jadid);
+    for (int j = 0; j < column; j++) {
+      int new_value;
+      cin >> new_value;
+      new_row.push_back(new_value);
     }
     map.push_back(new_row);
   }
-  int calculate_t;
-  Max_crops(map, calculate_t);
-  cout << calculate_t;
+  int max_crop;
+  find_max_crops(map, max_crop);
+  cout << max_crop;
   return 0;
 }
-void Max_crops(vector<vector<int>> map, int & t) {
+void find_max_crops(vector<vector<int>> map, int &max_crop) {
   vector<int> rows_crops;
   for (int i = 0; i < map.size(); i++) {
-    rows_crops.push_back(Sum(map[i]));
-    cerr << Sum(map[i]) << endl;
+    rows_crops.push_back(sum(map[i]));
+    cerr << sum(map[i]) << endl;
   }
   cerr << "_____________" << endl;
   vector<int> columns_crops;
@@ -43,15 +43,15 @@ void Max_crops(vector<vector<int>> map, int & t) {
   for (int i = 0; i < rows_crops.size(); i++) {
     if (max_crops[0] < rows_crops[i]) {
       max_crops[0] = rows_crops[i];
-      bool swapp = true;
-      while (swapp) {
-        swapp = false;
+      bool swap_flag = true;
+      while (swap_flag) {
+        swap_flag = false;
         for (int i = 0; i < max_crops.size() - 1; i++) {
           if (max_crops[i] > max_crops[i + 1]) {
             int swap_help = max_crops[i];
             max_crops[i] = max_crops[i + 1];
             max_crops[i + 1] = swap_help;
-            swapp = true;
+            swap_flag = true;
           }
         }
       }
@@ -81,9 +81,9 @@ void Max_crops(vector<vector<int>> map, int & t) {
   for (int j = 0; j < 4; j++) {
     cerr << max_crops[j] << " ";
   }
-  t = Sum(max_crops);
+  max_crop = sum(max_crops);
 }
-int Sum(vector<int> v) {
+int sum(vector<int> v) {
   int sum = 0;
   for (auto i: v)
     sum += i;
