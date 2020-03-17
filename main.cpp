@@ -4,6 +4,7 @@
 
 using namespace std;
 
+vector<int> sort(vector<int> v);
 vector<int> sum_columns_crops(vector<vector<int>> map);
 vector<int> sum_row_crops(vector<vector<int>> map);
 vector<vector<int>> read_map();
@@ -46,18 +47,7 @@ void find_max_crops(vector<vector<int>> map, int &max_crop) {
   for (int i = 0; i < rows_crops.size(); i++) {
     if (max_crops[0] < rows_crops[i]) {
       max_crops[0] = rows_crops[i];
-      bool swap_flag = true;
-      while (swap_flag) {
-        swap_flag = false;
-        for (int i = 0; i < max_crops.size() - 1; i++) {
-          if (max_crops[i] > max_crops[i + 1]) {
-            int swap_help = max_crops[i];
-            max_crops[i] = max_crops[i + 1];
-            max_crops[i + 1] = swap_help;
-            swap_flag = true;
-          }
-        }
-      }
+      max_crops = sort(max_crops);
     }
   }
   for (int j = 0; j < 4; j++) {
@@ -67,18 +57,7 @@ void find_max_crops(vector<vector<int>> map, int &max_crop) {
   for (int i = 0; i < columns_crops.size(); i++) {
     if (max_crops[0] < columns_crops[i]) {
       max_crops[0] = columns_crops[i];
-      bool swapp = true;
-      while (swapp) {
-        swapp = false;
-        for (int i = 0; i < max_crops.size() - 1; i++) {
-          if (max_crops[i] > max_crops[i + 1]) {
-            int swap_help = max_crops[i];
-            max_crops[i] = max_crops[i + 1];
-            max_crops[i + 1] = swap_help;
-            swapp = true;
-          }
-        }
-      }
+      max_crops = sort(max_crops);
     }
   }
   for (int j = 0; j < 4; j++) {
@@ -108,6 +87,22 @@ vector<int> sum_columns_crops(vector<vector<int>> map) {
     cerr << sum << endl;
   }
   return sums;
+}
+
+vector<int> sort(vector<int> v) {
+  bool swapp = true;
+  while (swapp) {
+    swapp = false;
+    for (int i = 0; i < v.size() - 1; i++) {
+      if (v[i] > v[i + 1]) {
+        int swap_help = v[i];
+        v[i] = v[i + 1];
+        v[i + 1] = swap_help;
+        swapp = true;
+      }
+    }
+  }
+  return v;
 }
 
 int sum(vector<int> v) {
