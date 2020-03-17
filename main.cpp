@@ -4,6 +4,8 @@
 
 using namespace std;
 
+vector<int> sum_columns_crops(vector<vector<int>> map);
+vector<int> sum_row_crops(vector<vector<int>> map);
 vector<vector<int>> read_map();
 vector<vector<int>> read_sized_map(int rows_size, int columns_size);
 void find_max_crops(vector<vector<int>> map, int &max_crop);
@@ -38,21 +40,8 @@ vector<vector<int>> read_sized_map(int rows_size, int columns_size) {
 }
 
 void find_max_crops(vector<vector<int>> map, int &max_crop) {
-  vector<int> rows_crops;
-  for (int i = 0; i < map.size(); i++) {
-    rows_crops.push_back(sum(map[i]));
-    cerr << sum(map[i]) << endl;
-  }
-  cerr << "_____________" << endl;
-  vector<int> columns_crops;
-  for (int i = 0; i < map[0].size(); i++) {
-    int sum = 0;
-    for (int j = 0; j < map.size(); j++) {
-      sum += map[j][i];
-    }
-    columns_crops.push_back(sum);
-    cerr << sum << endl;
-  }
+  vector<int> rows_crops = sum_row_crops(map);
+  vector<int> columns_crops = sum_columns_crops(map);
   vector<int> max_crops(4, 0);
   for (int i = 0; i < rows_crops.size(); i++) {
     if (max_crops[0] < rows_crops[i]) {
@@ -97,6 +86,30 @@ void find_max_crops(vector<vector<int>> map, int &max_crop) {
   }
   max_crop = sum(max_crops);
 }
+
+vector<int> sum_row_crops(vector<vector<int>> map) {
+  vector<int> sums;
+  for (int i = 0; i < map.size(); i++) {
+    sums.push_back(sum(map[i]));
+    cerr << sum(map[i]) << endl;
+  }
+  cerr << "_____________" << endl;
+  return sums;
+}
+
+vector<int> sum_columns_crops(vector<vector<int>> map) {
+  vector<int> sums;
+  for (int i = 0; i < map[0].size(); i++) {
+    int sum = 0;
+    for (int j = 0; j < map.size(); j++) {
+      sum += map[j][i];
+    }
+    sums.push_back(sum);
+    cerr << sum << endl;
+  }
+  return sums;
+}
+
 int sum(vector<int> v) {
   int sum = 0;
   for (auto i: v)
