@@ -5,7 +5,6 @@
 using namespace std;
 void Max_crops(vector<vector<int>> map, int &t);
 int Sum(vector<int> v);
-//----------------------------------------------
 int main() {
   int a, b;
   cin>>a>>b;
@@ -24,7 +23,6 @@ int main() {
   cout<<calculate_t;
   return 0;
 }
-//----------------------------------------------
 void Max_crops(vector<vector<int>> map, int &t) {
   vector<int> rows_crops;
   for (int i = 0; i<map.size(); i++) {
@@ -85,7 +83,6 @@ void Max_crops(vector<vector<int>> map, int &t) {
   }
   t = Sum(max_crops);
 }
-//----------------------------------------------
 int Sum(vector<int> v) 
 {
 int sum = 0;
