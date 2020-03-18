@@ -12,14 +12,12 @@ int calculate_max_crops(const vector<int> &rows_crops,
                         const vector<int> &columns_crops);
 vector<vector<int>> read_map();
 vector<vector<int>> read_sized_map(int rows_size, int columns_size);
-void find_max_crops(vector<vector<int>> map, int &max_crop);
+int find_max_crops(vector<vector<int>> map);
 int sum(vector<int> v);
 
 int main() {
   vector<vector<int>> map = read_map();
-  int max_crop;
-  find_max_crops(map, max_crop);
-  cout << max_crop;
+  cout << find_max_crops(map);
   return 0;
 }
 
@@ -43,10 +41,10 @@ vector<vector<int>> read_sized_map(int rows_size, int columns_size) {
   return map;
 }
 
-void find_max_crops(vector<vector<int>> map, int &max_crop) {
+int find_max_crops(vector<vector<int>> map) {
   vector<int> rows_crops = sum_row_crops(map);
   vector<int> columns_crops = sum_columns_crops(map);
-  max_crop = calculate_max_crops(rows_crops, columns_crops);
+  return calculate_max_crops(rows_crops, columns_crops);
 }
 
 vector<int> sum_row_crops(vector<vector<int>> map) {
