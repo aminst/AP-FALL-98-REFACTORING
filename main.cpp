@@ -4,9 +4,12 @@
 
 using namespace std;
 
+void add_to_top_yeilds(vector<int> &max_crops, vector<int> sums);
 vector<int> sort(vector<int> v);
 vector<int> sum_columns_crops(vector<vector<int>> map);
 vector<int> sum_row_crops(vector<vector<int>> map);
+int calculate_max_crops(const vector<int> &rows_crops,
+                        const vector<int> &columns_crops);
 vector<vector<int>> read_map();
 vector<vector<int>> read_sized_map(int rows_size, int columns_size);
 void find_max_crops(vector<vector<int>> map, int &max_crop);
@@ -43,27 +46,7 @@ vector<vector<int>> read_sized_map(int rows_size, int columns_size) {
 void find_max_crops(vector<vector<int>> map, int &max_crop) {
   vector<int> rows_crops = sum_row_crops(map);
   vector<int> columns_crops = sum_columns_crops(map);
-  vector<int> max_crops(4, 0);
-  for (int i = 0; i < rows_crops.size(); i++) {
-    if (max_crops[0] < rows_crops[i]) {
-      max_crops[0] = rows_crops[i];
-      max_crops = sort(max_crops);
-    }
-  }
-  for (int j = 0; j < 4; j++) {
-    cerr << max_crops[j] << " ";
-  }
-  cerr << endl;
-  for (int i = 0; i < columns_crops.size(); i++) {
-    if (max_crops[0] < columns_crops[i]) {
-      max_crops[0] = columns_crops[i];
-      max_crops = sort(max_crops);
-    }
-  }
-  for (int j = 0; j < 4; j++) {
-    cerr << max_crops[j] << " ";
-  }
-  max_crop = sum(max_crops);
+  max_crop = calculate_max_crops(rows_crops, columns_crops);
 }
 
 vector<int> sum_row_crops(vector<vector<int>> map) {
@@ -87,6 +70,30 @@ vector<int> sum_columns_crops(vector<vector<int>> map) {
     cerr << sum << endl;
   }
   return sums;
+}
+
+int calculate_max_crops(const vector<int> &rows_crops,
+                        const vector<int> &columns_crops) {
+  vector<int> max_crops(4, 0);
+  add_to_top_yeilds(max_crops, rows_crops);
+  for (int j = 0; j < 4; j++) {
+    cerr << max_crops[j] << " ";
+  }
+  cerr << endl;
+  add_to_top_yeilds(max_crops, columns_crops);
+  for (int j = 0; j < 4; j++) {
+    cerr << max_crops[j] << " ";
+  }
+  return sum(max_crops);
+}
+
+void add_to_top_yeilds(vector<int> &max_crops, vector<int> sums) {
+  for (int i = 0; i < sums.size(); i++) {
+    if (max_crops[0] < sums[i]) {
+      max_crops[0] = sums[i];
+      max_crops = sort(max_crops);
+    }
+  }
 }
 
 vector<int> sort(vector<int> v) {
