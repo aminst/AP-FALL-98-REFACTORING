@@ -7,16 +7,16 @@ using namespace std;
 
 typedef vector<vector<int>> map_t;
 
-void add_to_top_yeilds(vector<int> &max_crops, vector<int> sums);
-vector<int> sort(vector<int> v);
-vector<int> sum_columns_crops(map_t map);
-vector<int> sum_row_crops(map_t map);
+map_t read_map();
+map_t read_sized_map(const int &rows_size, const int &columns_size);
+int find_max_crops(const map_t &map);
+vector<int> sum_row_crops(const map_t &map);
+vector<int> sum_columns_crops(const map_t &map);
 int calculate_max_crops(const vector<int> &rows_crops,
                         const vector<int> &columns_crops);
-map_t read_map();
-map_t read_sized_map(int rows_size, int columns_size);
-int find_max_crops(map_t map);
-int sum(vector<int> v);
+vector<int> sort(vector<int> v);
+int sum(const vector<int> &v);
+void add_to_top_yeilds(vector<int> &max_crops, vector<int> sums);
 
 int main() {
   map_t map = read_map();
@@ -30,7 +30,7 @@ map_t read_map() {
   return read_sized_map(row, column);
 }
 
-map_t read_sized_map(int rows_size, int columns_size) {
+map_t read_sized_map(const int &rows_size, const int &columns_size) {
   map_t map;
   for (int i = 0; i < rows_size; i++) {
     vector<int> new_row;
@@ -44,13 +44,13 @@ map_t read_sized_map(int rows_size, int columns_size) {
   return map;
 }
 
-int find_max_crops(map_t map) {
+int find_max_crops(const map_t &map) {
   vector<int> rows_crops = sum_row_crops(map);
   vector<int> columns_crops = sum_columns_crops(map);
   return calculate_max_crops(rows_crops, columns_crops);
 }
 
-vector<int> sum_row_crops(map_t map) {
+vector<int> sum_row_crops(const map_t &map) {
   vector<int> sums;
   for (int i = 0; i < map.size(); i++) {
     sums.push_back(sum(map[i]));
@@ -60,7 +60,7 @@ vector<int> sum_row_crops(map_t map) {
   return sums;
 }
 
-vector<int> sum_columns_crops(map_t map) {
+vector<int> sum_columns_crops(const map_t &map) {
   vector<int> sums;
   for (int i = 0; i < map[0].size(); i++) {
     int sum = 0;
@@ -113,9 +113,9 @@ vector<int> sort(vector<int> v) {
   return v;
 }
 
-int sum(vector<int> v) {
+int sum(const vector<int> &v) {
   int sum = 0;
-  for (auto i: v)
+  for (auto i : v)
     sum += i;
   return sum;
 }
