@@ -3,32 +3,35 @@
 #include <vector>
 
 using namespace std;
+#define MAX_DAY_YEILD 4
+
+typedef vector<vector<int>> map_t;
 
 void add_to_top_yeilds(vector<int> &max_crops, vector<int> sums);
 vector<int> sort(vector<int> v);
-vector<int> sum_columns_crops(vector<vector<int>> map);
-vector<int> sum_row_crops(vector<vector<int>> map);
+vector<int> sum_columns_crops(map_t map);
+vector<int> sum_row_crops(map_t map);
 int calculate_max_crops(const vector<int> &rows_crops,
                         const vector<int> &columns_crops);
-vector<vector<int>> read_map();
-vector<vector<int>> read_sized_map(int rows_size, int columns_size);
-int find_max_crops(vector<vector<int>> map);
+map_t read_map();
+map_t read_sized_map(int rows_size, int columns_size);
+int find_max_crops(map_t map);
 int sum(vector<int> v);
 
 int main() {
-  vector<vector<int>> map = read_map();
+  map_t map = read_map();
   cout << find_max_crops(map);
   return 0;
 }
 
-vector<vector<int>> read_map() {
+map_t read_map() {
   int row, column;
   cin >> row >> column;
   return read_sized_map(row, column);
 }
 
-vector<vector<int>> read_sized_map(int rows_size, int columns_size) {
-  vector<vector<int>> map;
+map_t read_sized_map(int rows_size, int columns_size) {
+  map_t map;
   for (int i = 0; i < rows_size; i++) {
     vector<int> new_row;
     for (int j = 0; j < columns_size; j++) {
@@ -41,13 +44,13 @@ vector<vector<int>> read_sized_map(int rows_size, int columns_size) {
   return map;
 }
 
-int find_max_crops(vector<vector<int>> map) {
+int find_max_crops(map_t map) {
   vector<int> rows_crops = sum_row_crops(map);
   vector<int> columns_crops = sum_columns_crops(map);
   return calculate_max_crops(rows_crops, columns_crops);
 }
 
-vector<int> sum_row_crops(vector<vector<int>> map) {
+vector<int> sum_row_crops(map_t map) {
   vector<int> sums;
   for (int i = 0; i < map.size(); i++) {
     sums.push_back(sum(map[i]));
@@ -57,7 +60,7 @@ vector<int> sum_row_crops(vector<vector<int>> map) {
   return sums;
 }
 
-vector<int> sum_columns_crops(vector<vector<int>> map) {
+vector<int> sum_columns_crops(map_t map) {
   vector<int> sums;
   for (int i = 0; i < map[0].size(); i++) {
     int sum = 0;
@@ -72,14 +75,14 @@ vector<int> sum_columns_crops(vector<vector<int>> map) {
 
 int calculate_max_crops(const vector<int> &rows_crops,
                         const vector<int> &columns_crops) {
-  vector<int> max_crops(4, 0);
+  vector<int> max_crops(MAX_DAY_YEILD, 0);
   add_to_top_yeilds(max_crops, rows_crops);
-  for (int j = 0; j < 4; j++) {
+  for (int j = 0; j < MAX_DAY_YEILD; j++) {
     cerr << max_crops[j] << " ";
   }
   cerr << endl;
   add_to_top_yeilds(max_crops, columns_crops);
-  for (int j = 0; j < 4; j++) {
+  for (int j = 0; j < MAX_DAY_YEILD; j++) {
     cerr << max_crops[j] << " ";
   }
   return sum(max_crops);
